@@ -1,15 +1,9 @@
 from flask import Blueprint
 
-account_bp=Blueprint(
-"account",
-__name__
-)
 
-# Account list
-@account_bp.route(
-"/accounts"
-)
+account_bp = Blueprint("account", __name__)
 
+
+@account_bp.route("/accounts")
 def accounts():
-
-    return "Accounts Page"
+    return "Accounts page is under development."

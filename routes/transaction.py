@@ -1,14 +1,9 @@
 from flask import Blueprint
 
-transaction_bp = Blueprint(
-    "transaction",
-    __name__
-)
 
-@transaction_bp.route(
-    "/transactions"
-)
+transaction_bp = Blueprint("transaction", __name__)
 
+
+@transaction_bp.route("/transactions")
 def transactions():
-
-    return "Transactions Page"
+    return "Transactions page is under development."

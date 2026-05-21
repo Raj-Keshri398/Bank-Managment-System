@@ -1,49 +1,50 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
 
-<html>
+{% block title %}Register | Bank Management System{% endblock %}
 
-<head>
+{% block content %}
+<section class="auth-card">
+  <h1>Create Account</h1>
+  <p class="subtitle">Register to start managing your banking activities.</p>
 
-<title>Register</title>
+  <form method="POST" action="{{ url_for('auth.register') }}" class="auth-form">
+    <label for="username">Username</label>
+    <input
+      id="username"
+      name="username"
+      type="text"
+      placeholder="Choose a username"
+      value="{{ form_data.username if form_data else '' }}"
+      required
+      autofocus
+    />
 
-</head>
+    <label for="email">Email</label>
+    <input
+      id="email"
+      name="email"
+      type="email"
+      placeholder="Enter your email"
+      value="{{ form_data.email if form_data else '' }}"
+      required
+    />
 
-<body>
+    <label for="password">Password</label>
+    <input
+      id="password"
+      name="password"
+      type="password"
+      placeholder="Minimum 6 characters"
+      minlength="6"
+      required
+    />
 
-<h1>Create Account</h1>
+    <button type="submit">Register</button>
+  </form>
 
-<form method="POST" action="/register">
-
-<input
-name="username"
-placeholder="Username"
->
-
-<br><br>
-
-<input
-name="email"
-placeholder="Email"
->
-
-<br><br>
-
-<input
-name="password"
-type="password"
-placeholder="Password"
->
-
-<br><br>
-
-<button>
-
-Register
-
-</button>
-
-</form>
-
-</body>
-
-</html>
+  <p class="auth-footer">
+    Already have an account?
+    <a href="{{ url_for('auth.login') }}">Login</a>
+  </p>
+</section>
+{% endblock %}

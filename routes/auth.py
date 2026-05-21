@@ -1,49 +1,51 @@
-from flask import Blueprint
-from flask import render_template
-from flask import request
-from flask import redirect
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 
-auth_bp = Blueprint(
-    "auth",
-    __name__
-)
 
-# Login page
-@auth_bp.route("/login")
+auth_bp = Blueprint("auth", __name__)
 
+
+@auth_bp.route("/login", methods=["GET", "POST"])
 def login():
+    """Render login form and handle basic validation."""
+    if request.method == "POST":
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "")
 
-    return render_template(
-        "auth/login.html"
-    )
+        if not username or not password:
+            flash("Username and password are required.", "error")
+            return render_template("auth/login.html", username=username)
+
+        # Placeholder auth flow until DB auth is added.
+        flash(f"Welcome back, {username}!", "success")
+        return redirect(url_for("account.accounts"))
+
+    return render_template("auth/login.html")
 
 
-# Register page
-@auth_bp.route(
-"/register",
-methods=["GET","POST"]
-)
-
+@auth_bp.route("/register", methods=["GET", "POST"])
 def register():
+    """Render register form and handle basic validation."""
+    if request.method == "POST":
+        username = request.form.get("username", "").strip()
+        email = request.form.get("email", "").strip().lower()
+        password = request.form.get("password", "")
 
-    if request.method=="POST":
+        if not username or not email or not password:
+            flash("All fields are required.", "error")
+            return render_template(
+                "auth/register.html",
+                form_data={"username": username, "email": email},
+            )
 
-        username=request.form["username"]
+        if len(password) < 6:
+            flash("Password must be at least 6 characters.", "error")
+            return render_template(
+                "auth/register.html",
+                form_data={"username": username, "email": email},
+            )
 
-        email=request.form["email"]
+        # Placeholder register flow until DB insert is added.
+        flash("Registration successful. Please login.", "success")
+        return redirect(url_for("auth.login"))
 
-        password=request.form["password"]
-
-        print(username)
-
-        print(email)
-
-        print(password)
-
-        return redirect(
-            "/login"
-        )
-
-    return render_template(
-        "auth/register.html"
-    )
+    return render_template("auth/register.html")
